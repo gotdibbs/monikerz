@@ -1,0 +1,53 @@
+@-webkit-keyframes spin {
+    to {
+        stroke-dashoffset: -264;
+    }
+}
+@keyframes spin {
+    to {
+        stroke-dashoffset: -264;
+    }
+}
+.spinner circle {
+    fill: none;
+    stroke: slategray;
+    stroke-width: 16;
+    stroke-linecap: round;
+    stroke-dasharray: 0, 0, 70, 194;
+    stroke-dashoffset: 0;
+    animation: spin 1s infinite linear;
+    -webkit-animation: spin 1s infinite linear;
+}
+
+.loading-cover {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+}
+
+.loading-cover-center {
+    right: 0;
+}
+
+.loading-cover-cell {
+    padding: 0.75rem;
+}
+  
+.ellipsis:after {
+    -webkit-animation: ellipsis steps(4,end) 900ms infinite;
+    animation: ellipsis steps(4,end) 900ms infinite;
+    content: "\2026"; /* ascii code for the ellipsis character */
+    display: inline-block;
+    margin-right: 1.25em;
+    overflow: hidden;
+    vertical-align: bottom; 
+    width: 0;
+}
+
+@keyframes ellipsis {
+    to {
+        margin-right: 0;
+        width: 1.25em;    
+    }
+}

@@ -1,0 +1,32 @@
+/* -- Margin for fixed navbar -- */
+.app-body {
+    margin-top: 50px;
+}
+
+.card-center {
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    width: 100vw;
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {    
+    .card-center {
+        margin-top: 20px;
+        height: calc(100vh - 50px - 20px);
+    }
+}
+
+.rules {
+    display: flex;
+    margin: auto;
+    width: 100vw;
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) {  
+    .rules {
+        width: 50vw;
+    }
+}
