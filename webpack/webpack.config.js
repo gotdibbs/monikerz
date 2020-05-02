@@ -1,5 +1,6 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 const HoneybadgerSourceMapPlugin = require('@honeybadger-io/webpack');
@@ -15,7 +16,10 @@ const outputDir = path.resolve(root, 'dist');
 const dllManifestPath = path.resolve(root, 'manifest.json');
 const currentEnv = dotenv.config({ path: path.resolve(root, '.env') }).parsed;
 const ASSETS_LIMIT = 100000;
-let plugins = [];
+
+let plugins = [
+    new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /en/),
+];
 
 if (!fs.existsSync(dllManifestPath)) {
     throw new Error('Webpack DLL Manifest missing, please run the DLL build first');
@@ -25,7 +29,6 @@ module.exports = (options) => {
 
     log.info('webpack', `running ${options.env.NODE_ENV.toUpperCase()} build`);
     const isProduction = options.env.NODE_ENV === 'production';
-
 
     if (isProduction) {
         plugins = plugins.concat([
@@ -37,7 +40,7 @@ module.exports = (options) => {
             ].join('\n')),
             new HoneybadgerSourceMapPlugin({
                 apiKey: currentEnv.HONEYBADGER_API_KEY,
-                assetsUrl: currentEnv.ASSETS_URL,
+                assetsUrl: currentEnv.HONEYBADGER_ASSETS_URL,
                 revision: 'master',
                 silent: false
             })
@@ -47,15 +50,21 @@ module.exports = (options) => {
         plugins.push(
             new webpack.HotModuleReplacementPlugin()
         );
+
+        if (currentEnv.DEBUG_BUNDLE_SIZE) {
+            plugins.push(
+                new BundleAnalyzerPlugin()
+            );
+        }
     }
 
     const webpackConfig = {
         mode: options.env.NODE_ENV,
         context: path.resolve(root + '/src'),
-        entry: ['babel-polyfill', './index'],
+        entry: ['./index'],
         devtool: options.devtool,
         optimization: {
-            minimize: isProduction,
+            minimize: isProduction
         },
         output: {
             path: outputDir,

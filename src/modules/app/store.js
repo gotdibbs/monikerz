@@ -3,7 +3,7 @@ import { firebaseReducer as firebase } from 'react-redux-firebase';
 import { firestoreReducer as firestore } from 'redux-firestore';
 
 const middlewares = [];
-if (process.env.NODE_ENV !== 'production') {
+if (process.env.NODE_ENV !== 'production' && process.env.DEBUG_REDUX) {
     const { logger } = require('redux-logger');
     middlewares.push(logger);
 }

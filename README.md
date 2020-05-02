@@ -18,11 +18,26 @@ Monikerz is a party game that is similar to Celebrity or Charades. Teams play ag
 
 It is recommended to use VS Code for development. There are recommended extensions for this repository.
 
+### Environment Variables
+
+Note that changing an environment variable requires restarting webpack.
+
+|Variable|Description|
+|---|---|
+|`DEBUG_BUNDLE_SIZE`|Enabled `webpack-bundle-analyzer` to check on bundle bloat|
+|`DEBUG_FIREBASE`|Enables firebase logging to the console, when in development mode|
+|`DEBUG_REDUX`|Enables `redux-logger` to output to the console, when in development mode|
+|`DEBUG_RENDER`|Enables `why-did-you-render` to help troubleshoot unnecessary component updates, when in development mode|
+|`FATHOM_SITE_ID`|Site ID for Fathom Analytics, when in production mode|
+|`FIREBASE_*`|Firebase config values for interacting with firestore and dynamic links APIs. These come from the firebase web console.|
+|`HONEYBADGER_API_KEY`|Honeybadger API key for error reporting and sourcemap upload, when in production mode|
+|`HONEYBADGER_ASSETS_URL`|Base URL for production assets, required for `honeybadger-webpack` in production mode|
+
 ### Development
 
 1. Ensure `node` and `yarn` are installed globally.
 2. Clone this repository.
-3. Copy `.env.example` to `.env` and configure the relevant environment variables.
+3. Copy `.env.example` to `.env` and configure the relevant environment variables. See above for descriptions.
 4. Run `yarn install` from the root of the repository.
 5. Run `yarn dev:dll` once to build the webpack dll of dependencies.
 6. Run `yarn dev` to start webpack in watch mode.

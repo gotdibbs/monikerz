@@ -117,3 +117,4 @@ dist
 webpack_cache/
 manifest.json
 .env
+.DS_Store

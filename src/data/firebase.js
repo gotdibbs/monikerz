@@ -12,6 +12,8 @@ app.initializeApp(config);
 
 app.firestore().settings({ });
 
-// app.firestore.setLogLevel('debug');
+if (process.env.DEBUG_FIREBASE) {
+    app.firestore.setLogLevel('debug');
+}
 
 export default app;
