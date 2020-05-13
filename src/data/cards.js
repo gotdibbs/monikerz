@@ -636,7 +636,7 @@ module.exports = [
       description:
         'A manifestation of the title character in J.R.R. Tolkien’s fantasy series The Lord of the Rings. Frodo describes it as “rimmed with fire, but was itself glazed, yellow as a cat‘s, watchful and intent. and the black slit of its pupil opened on a pit. a window into nothing."',
       category: 'FICTIONAL CHARACTER',
-      points: '2'
+      points: 2
     },
     {
       name: 'Colonel Sanders',
@@ -2990,7 +2990,7 @@ module.exports = [
       points: 3
     },
     {
-      name: 'The Alien from Allen',
+      name: 'The Alien from Alien',
       description:
         'The extraterrestrial from a famous action-horror film series. Sometimes referred to as a Xenomorph, these creatures are organized around a single queen, which gives birth to creatures that follow a lifecycle from egg to facehugger to chestburster to adult.',
       category: 'FICTIONAL CHARACTER',

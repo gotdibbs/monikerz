@@ -8,8 +8,8 @@
     "scripts": {
         "lint": "eslint src",
         "dev:dll": "webpack --progress --env.NODE_ENV=development --config ./webpack/webpack.dll.js",
-        "prod:dll": "webpack --progress --env.NODE_ENV=production  --config./webpack/webpack.dll.js",
-        "dev": "webpack-dev-server --env.NODE_ENV=development --config ./webpack/webpack-dev.config.js --watch --colors",
+        "prod:dll": "webpack --progress --env.NODE_ENV=production  --config ./webpack/webpack.dll.js",
+        "dev": "webpack-dev-server --env.NODE_ENV=development --open --config ./webpack/webpack-dev.config.js --watch --colors",
         "prod": "webpack --progress -p --env.NODE_ENV=production --config ./webpack/webpack-prod.config.js",
         "deploy": "firebase deploy --only hosting",
         "storybook": "start-storybook",

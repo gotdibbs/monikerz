@@ -7,7 +7,7 @@ import 'utilities/fontawesome';
 import { App } from './modules/app';
 
 if (process.env.NODE_ENV !== 'development') {
-    Honeybadger.configure({
+    Honeybadger && Honeybadger.configure({
         apiKey: process.env.HONEYBADGER_API_KEY,
         environment: process.env.NODE_ENV,
         revision: 'master'

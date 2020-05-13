@@ -16,7 +16,7 @@ Monikerz is a party game that is similar to Celebrity or Charades. Teams play ag
 
 ## Building
 
-It is recommended to use VS Code for development. There are recommended extensions for this repository.
+It is recommended to use VS Code for development. There are recommended extensions for this repository. It is also recommended that you install the chrome extensions associated with debugging the react, redux, and xstate libraries.
 
 ### Environment Variables
 
@@ -40,7 +40,7 @@ Note that changing an environment variable requires restarting webpack.
 3. Copy `.env.example` to `.env` and configure the relevant environment variables. See above for descriptions.
 4. Run `yarn install` from the root of the repository.
 5. Run `yarn dev:dll` once to build the webpack dll of dependencies.
-6. Run `yarn dev` to start webpack in watch mode.
+6. Run `yarn dev` to start webpack in watch mode. This will automatically open your default browser.
 7. Run `yarn test` to check that your tests pass ok.
 8. Run `yarn test:coverage` to check that coverage has not decreased.
 9. If you've built a shared component, create a story for it in Storybook.

@@ -1,10 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
+import Button from 'common/components/Button';
 import Card from './Card';
 import GameHeader from './GameHeader';
 
-export default function ViewRound({ gameState, timeRemaining }) {
+export default function ViewRound({ gameState, timeRemaining, skip }) {
     const { player } = gameState;
+    const [showSkip, setShowSkip] = useState(false);
+
+    const isMyTeamsTurn = player.team === gameState.me?.team;
+
+    useEffect(() => {
+        // Wait five seconds then show the skip button
+        const timer = setTimeout(() => {
+            setShowSkip(true);
+        }, 5000);
+
+        return () =>  clearTimeout(timer);
+    }, []);
 
     return (
         <main className='card flex-column' data-testid='ViewRound'>
@@ -16,11 +29,19 @@ export default function ViewRound({ gameState, timeRemaining }) {
                         <b className='text-primary'>Blue Team</b> :
                         <b className='text-danger'>Red Team</b>
                     )}
-                    {player.team === gameState.me?.team ? (
+                    {isMyTeamsTurn ? (
                         <span className='text-muted'> (your team)</span>
                     ): null}
                     &nbsp;is up and giving clues.
                 </p>
+                {showSkip && isMyTeamsTurn && gameState.goalTime == null ? (
+                    <p>
+                        <Button className='btn btn-lg btn-danger w-100'
+                            onClick={skip}
+                            async
+                            data-testid='skip-player'>Skip {player.name}</Button>
+                    </p>
+                ) : null}
                 <p className={gameState.lastCard == null ? 'mb-0 text-center' : 'text-center'}>
                     This round's clues can {(!gameState.round ? 
                         'describe the name of the card using any words, sounds, or gestures except the name itself.' : 

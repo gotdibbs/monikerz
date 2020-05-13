@@ -78,7 +78,7 @@ export default function Game({ gameState, next, subState }) {
 
         next('start');
 
-        Honeybadger.addBreadcrumb('Start turn');
+        Honeybadger && Honeybadger.addBreadcrumb('Start turn');
     }
 
     async function endTurn(isEndOfRound, partialUpdate) {
@@ -119,7 +119,7 @@ export default function Game({ gameState, next, subState }) {
         }
         catch(e) { /* ignore nosleep fragility */ }
 
-        Honeybadger.addBreadcrumb('End turn', {
+        Honeybadger && Honeybadger.addBreadcrumb('End turn', {
             metadata: { isEndOfRound }
         });
     }
@@ -143,21 +143,26 @@ export default function Game({ gameState, next, subState }) {
 
         await batch.commit();
 
-        Honeybadger.addBreadcrumb('Cleanup');
+        Honeybadger && Honeybadger.addBreadcrumb('Cleanup');
     }
 
     async function correct() {
         let remainingCards = gameStateRef.current.cardPile.filter(c => c !== card);
         const player = gameStateRef.current.player;
+
+        const currentCardPoints = parseInt(Cards[card]?.points, 10);
+        const currentTeamPoints = parseInt(gameStateRef.current[`${player.team}Points`] || 0, 10);
+        const nextPoints = (isNaN(currentTeamPoints) ? 0 : currentTeamPoints) + 
+            (isNaN(currentCardPoints) ? 0 : currentCardPoints);
         
         const update = {
             lastCard: card,
-            [`${player.team}Points`]: (gameStateRef.current[`${player.team}Points`] || 0) + Cards[card].points,
+            [`${player.team}Points`]: nextPoints,
             cardPile: remainingCards
         };
         const isEndOfRound = remainingCards.length === 0;
 
-        Honeybadger.addBreadcrumb('Correct answer', {
+        Honeybadger && Honeybadger.addBreadcrumb('Correct answer', {
             metadata: { isEndOfRound }
         });
 

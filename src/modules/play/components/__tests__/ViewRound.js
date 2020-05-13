@@ -1,16 +1,19 @@
 import React from 'react';
 import ViewGame from '../ViewRound';
-import { render } from '@testing-library/react';
+import { fireEvent, render } from '@testing-library/react';
 import cases from 'jest-in-case';
+import { act } from 'react-dom/test-utils';
 
 jest.mock('../Card');
+
+jest.useFakeTimers();
 
 describe('ViewRound', () => {
     it('should render my blue team', () => {
         const gameState = {
             me: { team: 'blue' },
             player: {
-                name: 'ted',
+                name: 'Ted',
                 team: 'blue'
             }
         };
@@ -24,7 +27,7 @@ describe('ViewRound', () => {
         const gameState = {
             me: { team: 'red' },
             player: {
-                name: 'ted',
+                name: 'Ted',
                 team: 'red'
             }
         };
@@ -38,7 +41,7 @@ describe('ViewRound', () => {
         const gameState = {
             me: { team: 'red' },
             player: {
-                name: 'ted',
+                name: 'Ted',
                 team: 'blue'
             }
         };
@@ -53,7 +56,7 @@ describe('ViewRound', () => {
             me: { team: 'blue' },
             lastCard: 1,
             player: {
-                name: 'ted',
+                name: 'Ted',
                 team: 'blue'
             }
         };
@@ -69,7 +72,7 @@ describe('ViewRound', () => {
             me: { team: 'blue' },
             round: opts.round,
             player: {
-                name: 'ted',
+                name: 'Ted',
                 team: 'blue'
             }
         };
@@ -79,5 +82,71 @@ describe('ViewRound', () => {
         'round 1': { round: 0, text: /any words/i },
         'round 2': { round: 1, text: /one word/i },
         'round 3': { round: 2, text: /charades/i }
+    });
+
+    it('should render a skip button for the current team', () => {
+        const gameState = {
+            me: { team: 'red' },
+            player: {
+                name: 'Ted',
+                team: 'red'
+            }
+        };
+
+        const skip = jest.fn();
+
+        const { container, queryByTestId } = render(<ViewGame timeRemaining gameState={gameState} skip={skip} />);
+        expect(container).not.toContainElement(queryByTestId('skip-player'));
+
+        act(() => {
+            jest.runAllTimers();
+        });
+
+        expect(container).toContainElement(queryByTestId('skip-player'));
+
+        act(() => {
+            fireEvent.click(queryByTestId('skip-player'));            
+        });
+
+        expect(skip).toHaveBeenCalled();
+    });
+
+    it('should not render a skip button if the game is running', () => {
+        const gameState = {
+            goalTime: new Date(),
+            me: { team: 'red' },
+            player: {
+                name: 'Ted',
+                team: 'red'
+            }
+        };
+
+        const { container, queryByTestId } = render(<ViewGame timeRemaining gameState={gameState} />);
+        expect(container).not.toContainElement(queryByTestId('skip-player'));
+
+        act(() => {
+            jest.runAllTimers();
+        });
+
+        expect(container).not.toContainElement(queryByTestId('skip-player'));
+    });
+
+    it('should not render a skip button if opposing teams', () => {
+        const gameState = {
+            me: { team: 'blue' },
+            player: {
+                name: 'Ted',
+                team: 'red'
+            }
+        };
+
+        const { container, queryByTestId } = render(<ViewGame timeRemaining gameState={gameState} />);
+        expect(container).not.toContainElement(queryByTestId('skip-player'));
+
+        act(() => {
+            jest.runAllTimers();
+        });
+
+        expect(container).not.toContainElement(queryByTestId('skip-player'));
     });
 });

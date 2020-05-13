@@ -36,7 +36,7 @@ export default function useGameTimer(gameStateRef, endTurn) {
 
                 window.__monikerz__game_timer = null;
 
-                Honeybadger.addBreadcrumb('Round timer expired');
+                Honeybadger && Honeybadger.addBreadcrumb('Round timer expired');
                 endTurn(isEndOfRound);
             }, secondsLeft * 1000);
         }
